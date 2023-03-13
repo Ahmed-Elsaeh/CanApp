@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('cors')->group(function () {
 
-Route::post('/user/register', 'API\UserController@register');
-Route::post('/user/login', 'API\UserController@login');
-Route::post('/user/logout', 'API\UserController@logout');
+    Route::post('/user/register', 'API\UserController@register');
+    Route::post('/user/login', 'API\UserController@login');
+    Route::get('/user/logout', 'API\UserController@logout');
+});
