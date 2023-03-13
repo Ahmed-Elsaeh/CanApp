@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,8 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('cors')->group(function () {
-    Route::post('/user/register','Api\AuthContoller@createUser');
-    Route::post('/user/login', 'Api\AuthContoller@loginUser');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/user/register', 'register');
+    Route::post('/user/login', 'login');
 });
-

@@ -16,7 +16,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return User 
      */
-    function createUser(Request $request)
+    function register(Request $request)
     {
         try {
             //Validated
@@ -64,7 +64,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return User
      */
-    function loginUser(Request $request)
+    function login(Request $request)
     {
         try {
             $validateUser = Validator::make($request->all(), 
