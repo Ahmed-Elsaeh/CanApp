@@ -24,7 +24,8 @@ class UsersController extends Controller
 			'number' => 'string|unique:users',
 			'password' => 'required|string',
 			'gender' => 'numeric',
-			'role_id' => 'numeric'
+			'role_id' => 'numeric',
+            'reference_id' => 'numeric'
 		]);
 
 
