@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -47,7 +49,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'User Created Successfully',
+                'message' => 'User registered successfully!',
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
@@ -103,4 +105,28 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    function logout(Request $request)
+	{
+		$user = Auth::guard('api')->user();
+
+		if (!$user)
+			return response()->json(['message' => "unauthorized user"], 401);
+
+		DB::table('personal_access_tokens')
+            ->where('tokenable_id', $user->id)
+            ->delete();
+
+		return response()->json(['message' => "logged out successfully!"], 200);
+	}
+
+    function checkUser(Request $request)
+	{
+        $user = auth('api')->user();
+
+        if (!$user)
+			return response()->json(['message' => "unauthorized user"], 401);
+		else
+			return response()->json($user);
+	}
 }
