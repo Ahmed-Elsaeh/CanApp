@@ -21,13 +21,12 @@ class AuthController extends Controller
     function register(Request $request)
     {
         try {
-            //Validated
             $validateUser = Validator::make($request->all(), 
             [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required',
-                'number' => 'numeric',
+                'number' => 'numeric|unique:users,number',
                 'reference_id' => 'numeric',
                 'role_id' => 'numeric',
                 'gender' => 'numeric'
@@ -122,11 +121,49 @@ class AuthController extends Controller
 
     function checkUser(Request $request)
 	{
-        $user = auth('api')->user();
+        $user = Auth::guard('api')->user();
 
         if (!$user)
 			return response()->json(['message' => "unauthorized user"], 401);
 		else
 			return response()->json($user);
 	}
+
+    function edit(Request $request)
+    {
+        $validator = $request->validate([
+            'name' => 'string',
+            'email' => 'email|unique:users,email',
+            'number' => 'string|unique:users,number',
+            'current_password' => 'string',
+            'new_password' => 'string',
+            'gender' => 'integer',
+            'reference_id' => 'string'
+        ]);
+
+        $validate_user = Auth::guard('api')->user();
+        if (!$validate_user)
+			return response()->json(['message' => "unauthorized user"], 401);
+        $user = User::findOrFail($validate_user->id);
+        
+        if($request->has('name'))
+            $user->name = $request->name;
+        if($request->has('email'))
+            $user->email = $request->email;
+        if ($request->has('number'))
+            $user->number = $request->number;
+        if($request->has('current_password') && $request->has('new_password')){
+            if (Hash::check($request->current_password, $user->password) == false)
+                return response()->json(['message' => "current password is incorrect"], 422);
+            else
+               $user->password = bcrypt($request->new_password);
+        }
+        if($request->has('gender'))
+            $user->gender = $request->gender;
+        if($request->has('reference_id') && $user->role_id == 1)
+            $user->reference_id = $request->reference_id;
+        
+        $user->save();
+        return response()->json($user);
+    }
 }

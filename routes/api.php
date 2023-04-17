@@ -22,5 +22,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/user/register', 'register');
     Route::post('/user/login', 'login');
     Route::post('/user/logout', 'logout');
+    Route::post('/user/edit', 'edit');
     Route::get('/user/get', 'checkUser');
 });
