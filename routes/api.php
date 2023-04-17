@@ -33,6 +33,6 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(FeedController::class)->group(function () {
     Route::post('/feed/add', 'add');
     Route::post('/feed/edit', 'edit');
-    Route::delete('/feed/delete', 'delete');
+    Route::post('/feed/delete', 'delete');
     Route::get('/feed', 'getAll');
 });
