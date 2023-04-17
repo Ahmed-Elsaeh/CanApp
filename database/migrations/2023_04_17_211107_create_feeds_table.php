@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->title();
-            $table->body();
+            $table->string('title');
+            $table->text('body');
         });
     }
 

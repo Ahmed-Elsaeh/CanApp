@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Feed;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Laravel\Ui\Presets\React;
 
 class FeedController extends Controller
 {
@@ -23,25 +24,23 @@ class FeedController extends Controller
                     'status' => false,
                     'message' => 'content error',
                     'errors' => $validateFeed->errors()
-                ], 401);
+                ], 422);
             }
 
-            $post = Feed::create([
-                'title' => $request->title,
-                'body' => $request->body,
-            ]);
+            $post = new Feed();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Feed created successfully!',
-            ], 200);
+            $post->title =  $request->title;
+            $post->body =  $request->body;
+            $post->save();
+
+            return response()->json($post);
     }
 
     function edit(Request $request)
     {
         $validateFeed = Validator::make($request->all(), 
         [
-            'id'=>'required|numeric|exists:feed,id',
+            'id'=>'required|numeric|exists:feeds,id',
             'title' => 'string',
             'body' => 'string'
         ]);
@@ -49,37 +48,52 @@ class FeedController extends Controller
         if($validateFeed->fails()){
             return response()->json([
                 'status' => false,
-                'message' => 'content error',
+                'message' => 'article does not exist',
                 'errors' => $validateFeed->errors()
-            ], 401);
+            ], 422);
         }
 
-        $post = Feed::findOrFail($request->id);
+        $post = Feed::find($request->id);
 
         if($request->has('title'))
-                $post->title = request('title');
+            $post->title = $request->title;
         if($request->has('body'))
-            $post->body = request('body');
+            $post->body = $request->body;
         $post->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Feed created successfully!',
+            'message' => 'Feed edited successfully!',
         ], 200);
     }
 
     function delete(Request $request)
     {
-        $post = $request -> validate([
-            'id'=>'numeric|required|exists:feed,id'
+        $validateFeed = Validator::make($request->all(), 
+        [
+            'id'=>'required|numeric|exists:feeds,id'
         ]);
-        $post = Feed::find(request('id'));
+
+        if($validateFeed->fails()){
+            return response()->json([
+                'status' => false,
+                'message' => 'article does not exist',
+                'errors' => $validateFeed->errors()
+            ], 422);
+        }
+
+        $post = Feed::find($request->id);
         $post->delete();
         
         return response()->json([
             'status' => true,
             'message' => 'Post deleted successfully!',
         ], 200);
-        
+    }
+
+    function getAll(Request $request)
+    {
+        $feed = Feed::all();
+        return response()->json($feed);
     }
 }
