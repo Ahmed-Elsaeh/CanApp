@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Feed;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Laravel\Ui\Presets\React;
 
 class FeedController extends Controller
 {

@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FeedController;
-
+use App\Http\Controllers\Api\HospitalController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,4 +35,12 @@ Route::controller(FeedController::class)->group(function () {
     Route::post('/feed/edit', 'edit');
     Route::post('/feed/delete', 'delete');
     Route::get('/feed', 'getAll');
+});
+
+//Hospital API
+Route::controller(HospitalController::class)->group(function () {
+    Route::post('/hospital/add', 'add');
+    Route::post('/hospital/edit', 'edit');
+    Route::post('/hospital/delete', 'delete');
+    Route::get('/hospital', 'getAll');
 });
