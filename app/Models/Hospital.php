@@ -13,4 +13,9 @@ class Hospital extends Model
         'name',
         'location'
     ];
+
+    public function user()
+        {
+            return $this->belongsTo('app\Models\User.php','user_id','id');
+        }
 }

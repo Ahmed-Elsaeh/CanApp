@@ -14,7 +14,7 @@ class HospitalController extends Controller
     function add(Request $request)
     {
         $user = Auth::guard('api')->user();
-        dd($user);
+        // dd($user);
 		
         if (!$user)
 			return response()->json(['message' => "unauthorized user"], 401);
@@ -25,7 +25,8 @@ class HospitalController extends Controller
         $validateHospital = Validator::make($request->all(), 
             [
                 'name' => 'string',
-                'location' => 'string'
+                'location' => 'string',
+                'image' => 'file'
             ]);
 
             if($validateHospital->fails()){
@@ -40,6 +41,7 @@ class HospitalController extends Controller
 
             $hospital->name =  $request->name;
             $hospital->location =  $request->location;
+            $hospital->user_id = $user->id;
             $hospital->save();
 
             return response()->json($hospital);
@@ -59,7 +61,8 @@ class HospitalController extends Controller
         [
             'id'=>'required|numeric|exists:hospitals,id',
             'name' => 'string',
-            'location' => 'string'
+            'location' => 'string',
+            'image' => 'file'
         ]);
 
         if($validateHospital->fails()){
@@ -72,11 +75,13 @@ class HospitalController extends Controller
 
         $hospital = Hospital::find($request->id);
 
-        if($request->has('name'))
-            $hospital->name = $request->name;
-        if($request->has('location'))
-            $hospital->location = $request->location;
-        $hospital->save();
+        if($hospital->user_id == $user->id){
+            if($request->has('name'))
+                $hospital->name = $request->name;
+            if($request->has('location'))
+                $hospital->location = $request->location;
+            $hospital->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -108,7 +113,10 @@ class HospitalController extends Controller
         }
 
         $hospital = Hospital::find($request->id);
-        $hospital->delete();
+
+        if($hospital->user_id == $user->id){
+            $hospital->delete();
+        }
         
         return response()->json([
             'status' => true,

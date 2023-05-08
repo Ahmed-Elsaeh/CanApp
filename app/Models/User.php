@@ -48,4 +48,10 @@ class User extends Authenticatable
     ];
     
     protected $guard = 'api';
+
+    public function hospital()
+        {
+            return $this->hasMany('app\Models\Hospital.php','user_id','id');
+        }
+
 }
