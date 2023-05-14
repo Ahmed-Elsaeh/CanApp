@@ -8,6 +8,7 @@ use App\Models\Hospital;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Monolog\Processor\HostnameProcessor;
 
 class HospitalController extends Controller
 {
@@ -73,7 +74,7 @@ class HospitalController extends Controller
             ], 422);
         }
 
-        $hospital = Hospital::find($request->id);
+        $hospital = Hospital::where('user_id',$user->id)->where('id',$request->id)->first();
 
         if($hospital->user_id == $user->id){
             if($request->has('name'))
@@ -86,6 +87,7 @@ class HospitalController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Hospital edited successfully!',
+            'hospital' => $hospital
         ], 200);
     }
 
@@ -121,6 +123,7 @@ class HospitalController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Hospital deleted successfully!',
+            'hospitals' => Hospital::all()
         ], 200);
     }
 
