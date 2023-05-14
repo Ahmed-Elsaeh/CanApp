@@ -13,7 +13,6 @@ class HospitalController extends Controller
 {
     function add(Request $request)
     {
-        // $user = Auth::guard('api')->user();
         $user = auth('api')->user();
         // dd($user);
 		
@@ -50,7 +49,7 @@ class HospitalController extends Controller
 
     function edit(Request $request)
     {
-        $user = Auth::guard('api')->user();
+        $user = auth('api')->user();
 
 		if (!$user)
 			return response()->json(['message' => "unauthorized user"], 401);
@@ -92,7 +91,7 @@ class HospitalController extends Controller
 
     function delete(Request $request)
     {
-        $user = Auth::guard('api')->user();
+        $user = auth('api')->user();
 
 		if (!$user)
 			return response()->json(['message' => "unauthorized user"], 401);
