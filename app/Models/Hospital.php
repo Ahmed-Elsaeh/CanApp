@@ -11,7 +11,8 @@ class Hospital extends Model
 
     protected $fillable = [
         'name',
-        'location'
+        'location',
+        'image'
     ];
 
     public function user()

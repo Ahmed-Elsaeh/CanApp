@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('location');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->integer('user_id')->nullable();
         });
     }

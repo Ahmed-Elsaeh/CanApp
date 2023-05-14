@@ -13,7 +13,8 @@ class HospitalController extends Controller
 {
     function add(Request $request)
     {
-        $user = Auth::guard('api')->user();
+        // $user = Auth::guard('api')->user();
+        $user = auth('api')->user();
         // dd($user);
 		
         if (!$user)
@@ -62,13 +63,13 @@ class HospitalController extends Controller
             'id'=>'required|numeric|exists:hospitals,id',
             'name' => 'string',
             'location' => 'string',
-            'image' => 'file'
+            'image' => 'string'
         ]);
 
         if($validateHospital->fails()){
             return response()->json([
                 'status' => false,
-                'message' => 'article does not exist',
+                'message' => 'hospital does not exist',
                 'errors' => $validateHospital->errors()
             ], 422);
         }
@@ -107,7 +108,7 @@ class HospitalController extends Controller
         if($validateHospital->fails()){
             return response()->json([
                 'status' => false,
-                'message' => 'article does not exist',
+                'message' => 'hospital does not exist',
                 'errors' => $validateHospital->errors()
             ], 422);
         }
