@@ -12,7 +12,7 @@ class editHospital extends Command
      *
      * @var string
      */
-    protected $signature = 'editHospital {id} {name?} {location?} {image?}';
+    protected $signature = 'editHospital {id}';
 
     /**
      * The console command description.
