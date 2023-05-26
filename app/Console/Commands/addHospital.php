@@ -33,8 +33,8 @@ class addHospital extends Command
         $hospital->location = $location;
         $image = $this->ask("What's the image you would like to insert");
         $hospital->image = $image;
-        $this->info($hospital);
-        // $hospital->save();
-        // $this->info('command successful!');
+        // $this->info($hospital);
+        $hospital->save();
+        $this->info('command successful!');
     }
 }
