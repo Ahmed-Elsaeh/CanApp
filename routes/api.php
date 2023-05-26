@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FeedController;
 use App\Http\Controllers\Api\HospitalController;
+use App\Http\Controllers\Api\ReportController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,4 +45,12 @@ Route::controller(HospitalController::class)->group(function () {
     Route::post('/hospital/edit', 'edit');
     Route::post('/hospital/delete', 'delete');
     Route::get('/hospital', 'getAll');
+});
+
+//Report API
+Route::controller(ReportController::class)->group(function () {
+    Route::post('/report/add', 'add');
+    Route::post('/report/edit', 'edit');
+    Route::post('/report/delete', 'delete');
+    Route::get('/report', 'get');
 });
