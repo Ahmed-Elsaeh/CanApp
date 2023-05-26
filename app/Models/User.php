@@ -53,5 +53,10 @@ class User extends Authenticatable
         {
             return $this->hasMany('app\Models\Hospital.php','user_id','id');
         }
+    
+    public function report()
+        {
+            return $this->hasMany('app\Models\Report.php','user_id','id');
+        }
 
 }

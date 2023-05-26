@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'data'
+    ];
+
+    public function user()
+        {
+            return $this->belongsTo('app\Models\User.php','user_id','id');
+        }
 }
