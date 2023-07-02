@@ -23,12 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //User API
+Route::controller(AuthController::class)->group(function () {
     Route::post('/user/register', [AuthController::class,'register']);
-    Route::post('/user/login', [AuthController::class,'login']);
-    Route::post('/user/logout', [AuthController::class,'logout']);
-    Route::post('/user/edit', [AuthController::class,'edit']);
-    Route::get('/user/get', [AuthController::class,'checkUser']);
-
+    Route::post('/user/login', 'login');
+    Route::post('/user/logout', 'logout');
+    Route::post('/user/edit', 'edit');
+    Route::get('/user/get', 'checkUser');
+});
 
 //Feed API
 Route::controller(FeedController::class)->group(function () {
