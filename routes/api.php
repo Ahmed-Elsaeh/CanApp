@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\FeedController;
-use App\Http\Controllers\Api\HospitalController;
-use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\FeedController;
+use App\Http\Controllers\API\HospitalController;
+use App\Http\Controllers\API\ReportController;
 
 /*
 |--------------------------------------------------------------------------
